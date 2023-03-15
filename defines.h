@@ -1,0 +1,14 @@
+#define hlt 0b00000;
+#define nop 0b00001;
+#define add 0b00010;
+#define sub 0b00011;
+#define mul 0b00100;
+#define div 0b00101;
+#define cmp 0b00110;
+#define xchg 0b00111;
+#define and 0b01000;
+#define or 0b01001;
+#define xor 0b01010;
+#define not 0b01011;
+#define jeM [X] 0b01100;
+#define jneM [X] 0b01101;
