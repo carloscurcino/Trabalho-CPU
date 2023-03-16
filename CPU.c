@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <defines.h>
+#include "defines.h"
 
 // 1 - Entender a codificação do programa
 // 2 - Botar a cpu para rodar
@@ -28,17 +28,18 @@ int main()
         memoria[i] = hlt;
         printf("HELLO WORLD\n");
     }
-    // OPCode tem 5 bits e o resto da instrução tem o endereço de memória
 
-    // MBR recebe a palavra de 32 bits
-    // IBR = MBR && 0xFFFF;
-    // MBR  = MBR >> 16;
-    // MAR = MBR && 0x7FF;(mascara para os 11 bits menos significativos) //Não entendi bem essa parte de mascara
-    // IR = MBR >> 11; //IR recebe o MBR deslocado em 11 bits
+    /* OPCode tem 5 bits e o resto da instrução tem o endereço de memória
 
-    // IF's de checagem do OP CODE ex: IF(IR == 0b10011(LDA))
+    MBR recebe a palavra de 32 bits
+    IBR = MBR && 0xFFFF;
+    MBR  = MBR >> 16;
+    MAR = MBR && 0x7FF;(mascara para os 11 bits menos significativos) //Não entendi bem essa parte de mascara
+    IR = MBR >> 11; //IR recebe o MBR deslocado em 11 bits
 
-    // MBR está ligado diretamente a mémoria ele que pega o endereço/instrução
+    IF's de checagem do OP CODE ex: IF(IR == 0b10011(LDA))
+
+     MBR está ligado diretamente a mémoria ele que pega o endereço/instrução */
 
     while (1)
     {
@@ -49,18 +50,17 @@ int main()
 
     return 0;
 }
-
 void Busca()
 {
-    printf("Buscando");
+    printf("Buscando\n");
 }
 
 void Decodifica()
 {
-    printf("Decodificando");
+    printf("Decodificando\n");
 }
 
 void Executa()
 {
-    printf("Executando");
+    printf("Executando\n");
 }
