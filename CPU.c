@@ -46,6 +46,8 @@ int main()
         // Busca();
         //  Decodifica();
         Executa();
+
+        /*Sempre que o código roda os três ciclos é um ciclo de maquina*/
     }
 
     return 0;
@@ -53,11 +55,15 @@ int main()
 void Busca()
 {
     printf("Buscando\n");
+    /*Se LR = 0, deve-se buscar uma palavra de instrução de 32 bits, que contém duas instruções de 16 bits cada.*/
 }
 
 void Decodifica()
 {
     printf("Decodificando\n");
+    /*Dessa forma, quando LR = 0, a instrução
+da esquerda terá os seus campos divididos em IR, MAR e IMM abaixo durante o estágio de decodificação, seguindo
+para a execução, enquanto a instrução à direita apenas é armazenada em IBR.*/
 }
 
 void Executa()
@@ -78,11 +84,15 @@ void Executa()
     }
     else if (IR == sub)
     {
-        /**/
+        A = A - B;
+    }
+    else if (IR == mul)
+    {
+        A = A * B;
     }
     else if (IR == div)
     {
-        /**/
+        A = A / B;
     }
     else if (IR == cmp)
     {
@@ -94,19 +104,19 @@ void Executa()
     }
     else if (IR == and)
     {
-        /**/
+        A = A && B;
     }
     else if (IR == or)
     {
-        /**/
+        A = A || B;
     }
     else if (IR == xor)
     {
-        /**/
+        A = A ^ B;
     }
     else if (IR == not )
     {
-        /**/
+        A = !A;
     }
     else if (IR == je)
     {
