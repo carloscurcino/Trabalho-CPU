@@ -43,11 +43,12 @@ int main()
     IR = 0b00001;
     while (1)
     {
-        // Busca();
-        //  Decodifica();
+        Busca();
+        Decodifica();
         Executa();
 
         /*Sempre que o código roda os três ciclos é um ciclo de maquina*/
+        /*Deve imprimir as informações de registradores tem o exemplo de como deve ser feito esse output*/
     }
 
     return 0;
