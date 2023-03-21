@@ -90,7 +90,6 @@ void executa()
     {
         return 0;
     }
-    busca();
 }
 void setMemoria()
 { // inicializa a memoria
@@ -128,7 +127,14 @@ int main()
     MEM[130] = 0X00;
     MEM[131] = 0x05;
     prtMemoria();
-    busca();
+    while (1)
+    {
+        int a = 0;
+        printf("Se vc quer continuar tecle 1\n");
+        scanf("%d", &a);
 
+        if (a == 1)
+            busca();
+    }
     return 0;
 }
