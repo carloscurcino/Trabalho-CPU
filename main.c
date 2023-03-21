@@ -5,12 +5,15 @@ unsigned short int PC = 0x0000;        // program counter
 unsigned int MBR = 0x0000000000000000; // memory buffer register
 unsigned short int MAR = 0x00000000;   // memory address register
 unsigned char IR = 0x00;               // instruction register
-unsigned short int IBR = 0x0000;       // instruction buffer register
-unsigned short int AC = 0x0000;        // accumulator register
-unsigned char LR = 0x00;               // Flag Left/Right
-unsigned char MEM[154];                // memory
-unsigned short int A = 0x0000;         // Registe A
-unsigned short int B = 0x0000;         // Registe B
+unsigned short int IMM;
+unsigned short int IBR = 0x0000; // instruction buffer register
+unsigned short int AC = 0x0000;
+unsigned char E, L, G;         // accumulator register
+unsigned char LR = 0x00;       // Flag Left/Right
+unsigned char MEM[154];        // memory
+unsigned short int A = 0x0000; // Registe A
+unsigned short int B = 0x0000; // Registe B
+unsigned short int T;
 
 void busca()
 {
@@ -28,12 +31,12 @@ void busca()
         MAR++;                // MAR = 43
         MBR = MBR << 8;
         MBR = MBR | MEM[MAR]; // RESULTADO 9880A082
-        printf("\n MBR na busca e %x \n", MBR);
+        // printf("\n MBR na busca e %x \n", MBR);
         decodifica();
     }
     else
     {
-        printf("\n executando uma tarefa right \n");
+        // printf("\n executando uma tarefa right \n");
         PC += 4;
         decodifica();
     }
@@ -48,7 +51,7 @@ void decodifica()
         MAR = MBR & 0X7FF;
         IR = MBR >> 11;
         LR = 1;
-        printf("\n %d OPC left \n", IR);
+        // printf("\n %d OPC left \n", IR);
         executa();
     }
     else
@@ -56,7 +59,7 @@ void decodifica()
         LR = 0;
         MAR = IBR & 0X7FF;
         IR = IBR >> 11;
-        printf("\n %x OPC right \n", IR);
+        // printf("\n %x OPC right \n", IR);
 
         executa();
     }
@@ -66,7 +69,7 @@ void executa()
     if (IR == 0b00100)
     { // ADD
         A = A * B;
-        printf("\n somando registradores, valor = %d \n", A);
+        // printf("\n somando registradores, valor = %d \n", A);
     }
     else if (IR == 0b10011)
     { // LDA
@@ -75,7 +78,7 @@ void executa()
         MAR++;
         MBR = MBR | MEM[MAR];
         A = MBR & 0xFFFF;
-        printf("\n usando o registrador A = %d \n", A);
+        // printf("\n usando o registrador A = %d \n", A);
     }
     else if (IR == 0b10100)
     { // LDB
@@ -84,7 +87,7 @@ void executa()
         MAR++;
         MBR = MBR | MEM[MAR];
         B = MBR & 0xFFFF;
-        printf("\n usando o registrador B = %d \n", B);
+        // printf("\n usando o registrador B = %d \n", B);
     }
     else
     {
@@ -100,6 +103,7 @@ void setMemoria()
 }
 void prtMemoria()
 { // printa a memoria
+    printf("\nMEMORIA:\n");
     for (int i = 0; i < 154; i++)
     {
         printf("%02d: \t0x%X\t", i, MEM[i]); // MOSTRA A POSIÇÃO E O VALOR ARMAZENADO NESSA POSIÇÃO EM HEX
@@ -108,6 +112,16 @@ void prtMemoria()
             printf("\n");
         }
     }
+}
+void mostraStatus()
+{
+    printf("CPU:\n");
+    printf("A:\t0x%X \tB:\t0x%X \tT:\t0x%X \n", A, B, T);
+    printf("MBR:\t0x%X \tMAR:\t0x%X \tIMM:\t0x%X \n", MBR, MAR, IMM);
+    printf("PC:\t0x%X \tIR:\t0x%X \tLR:\t0x%X \n", PC, IR, LR);
+    printf("E:\t0x%X \tL:\t0x%X \tG:\t0x%X \n", E, L, G);
+
+    prtMemoria();
 }
 
 int main()
@@ -131,15 +145,16 @@ int main()
     MEM[129] = 0x02;
     MEM[130] = 0X00;
     MEM[131] = 0x05;
-    prtMemoria();
-    while (1)
+    // prtMemoria();
+    while (1) // Ciclo da CPU
     {
         int a = 0;
-        printf("Se vc quer continuar tecle 1\n");
+        printf("\nSe vc quer continuar tecle 1\n");
         scanf("%d", &a);
 
         if (a == 1)
             busca();
+        mostraStatus();
     }
     return 0;
 }
