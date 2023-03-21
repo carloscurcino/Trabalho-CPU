@@ -18,15 +18,38 @@ unsigned char LR;
 unsigned short int A;
 unsigned short int B;
 unsigned short int T;
-unsigned char memoria[154];
+unsigned char MEM[154];
+
+void prtMemoria()
+{ // printa a memoria
+    for (int i = 0; i < 154; i++)
+    {
+        printf("%02d: \t0x%X\t", i, MEM[i]); // MOSTRA A POSIÇÃO E O VALOR ARMAZENADO NESSA POSIÇÃO EM HEX
+        if (i > 0 && (i + 1) % 3 == 0)
+        {
+            printf("\n");
+        }
+    }
+}
+void mostraStatus()
+{
+    printf("CPU:\n");
+    printf("A:\t0x%X \tB:\t0x%X \tT:\t0x%X \n", A, B, T);
+    printf("MBR:\t0x%X \tMAR:\t0x%X \tIMM:\t0x%X \n", MBR, MAR, IMM);
+    printf("PC:\t0x%X \tIR:\t0x%X \tLR:\t0x%X \n", PC, IR, LR);
+    printf("E:\t0x%X \tL:\t0x%X \tG:\t0x%X \n", E, L, G);
+
+    printf("\nMEMORIA:\n");
+    prtMemoria();
+}
+
 int main()
 {
 
     // Seta tudas posições da memoria para iniciarem com 0
     for (int i = 0; i < 154; i++)
     {
-        memoria[i] = hlt;
-        printf("HELLO WORLD\n");
+        MEM[i] = hlt;
     }
 
     /* OPCode tem 5 bits e o resto da instrução tem o endereço de memória
@@ -41,15 +64,16 @@ int main()
 
      MBR está ligado diretamente a mémoria ele que pega o endereço/instrução */
     IR = 0b00001;
-    while (1)
-    {
-        Busca();
-        Decodifica();
-        Executa();
+    mostraStatus();
+    // while (1)
+    // {
+    //     Busca();
+    //     Decodifica();
+    //     Executa();
 
-        /*Sempre que o código roda os três ciclos é um ciclo de maquina*/
-        /*Deve imprimir as informações de registradores tem o exemplo de como deve ser feito esse output*/
-    }
+    //     /*Sempre que o código roda os três ciclos é um ciclo de maquina*/
+    //     /*Deve imprimir as informações de registradores tem o exemplo de como deve ser feito esse output*/
+    // }
 
     return 0;
 }
