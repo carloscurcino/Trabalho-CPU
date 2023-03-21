@@ -100,9 +100,13 @@ void setMemoria()
 }
 void prtMemoria()
 { // printa a memoria
-    for (int i = 40; i < 84; i++)
+    for (int i = 0; i < 154; i++)
     {
-        printf("%d", MEM[i]);
+        printf("%02d: \t0x%X\t", i, MEM[i]); // MOSTRA A POSIÇÃO E O VALOR ARMAZENADO NESSA POSIÇÃO EM HEX
+        if (i > 0 && (i + 1) % 3 == 0)
+        {
+            printf("\n");
+        }
     }
 }
 int main()
