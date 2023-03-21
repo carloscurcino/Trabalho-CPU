@@ -7,26 +7,26 @@ unsigned short int MAR = 0x00000000; //memory address register
 unsigned char IR  = 0x00; //instruction register
 unsigned short int IBR = 0x0000; //instruction buffer register
 unsigned short int AC  = 0x0000; //accumulator register
-unsigned char LR  = 0x00; //Flag Left/Right
+unsigned char LR  = 0x00; //link register
 unsigned char MEM[154]; //memory
-unsigned short int A = 0x0000; //Registe A
-unsigned short int B = 0x0000; //Registe B
+unsigned short int A = 0x0000;
+unsigned short int B = 0x0000;
 
 
 void busca(){
 
     if(LR==0){
         MAR=PC;
-        MBR=MEM[MAR]; // RESULTADO 98
-        MAR++;	// MAR = 41
+        MBR=MEM[MAR]; //98
+        MAR++;	//41
         MBR=MBR<<8;
-        MBR=MBR|MEM[MAR]; // RESULTADO 9880
-        MAR++;	// MAR = 42
+        MBR=MBR|MEM[MAR]; //9880
+        MAR++;	//41
         MBR=MBR<<8;
-        MBR=MBR|MEM[MAR]; // RESULTADO 9880A0
-        MAR++;	// MAR = 43
+        MBR=MBR|MEM[MAR]; //9880
+        MAR++;	//41
         MBR=MBR<<8;
-        MBR=MBR|MEM[MAR]; // RESULTADO 9880A082
+        MBR=MBR|MEM[MAR]; //9880
         printf("\n MBR na busca e %x \n", MBR);
         decodifica();
     }
@@ -57,12 +57,12 @@ void decodifica(){
     }
 }
 void executa(){
-    if(IR==0b00100){	//ADD
+    if(IR==0b00100){
         A=A*B;
         printf("\n somando registradores, valor = %d \n", A);
 
     }
-    else if(IR==0b10011){	//LDA
+    else if(IR==0b10011){//LDA
         MBR = MEM[MAR];
         MBR = MBR << 8;
         MAR++;
@@ -71,7 +71,7 @@ void executa(){
         printf("\n usando o registrador A = %d \n", A);
 
     }
-    else if(IR==0b10100){ 	//LDB
+    else if(IR==0b10100){ //LDB
         MBR = MEM[MAR];
         MBR = MBR << 8;
         MAR++;
@@ -80,16 +80,15 @@ void executa(){
         printf("\n usando o registrador B = %d \n",B);
     }
     else{
-        return 0;
+        return;
     }
-    busca();
 }
-void setMemoria(){ //inicializa a memoria
+void setMemoria(){
     for(int i=40; i<84; i++){
         MEM[i]=0;
     }
 }
-void prtMemoria(){ //printa a memoria 
+void prtMemoria(){
     for(int i=40; i<84; i++){
         printf("%d",MEM[i]);
     }
@@ -115,7 +114,16 @@ int main(){
     MEM[130]=0X00;
     MEM[131]=0x05;
     prtMemoria();
-    busca();
+    while(1){
+        int a=0;
+        printf("Se vc quer continuar tecle 1\n");
+        scanf("%d", &a);
 
+
+        if(a==1)
+            busca();
+
+
+    }
     return 0;
 }
