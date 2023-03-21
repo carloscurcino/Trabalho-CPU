@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "defines.h"
 
 unsigned short int PC = 0x0000;        // program counter
 unsigned int MBR = 0x0000000000000000; // memory buffer register
@@ -56,6 +57,7 @@ void decodifica()
     }
     else
     {
+        printf("\n executando uma tarefa right \n");
         LR = 0;
         MAR = IBR & 0X7FF;
         IR = IBR >> 11;
@@ -96,9 +98,9 @@ void executa()
 }
 void setMemoria()
 { // inicializa a memoria
-    for (int i = 40; i < 84; i++)
+    for (int i = 0; i < 154; i++)
     {
-        MEM[i] = 0;
+        MEM[i] = hlt;
     }
 }
 void prtMemoria()
@@ -148,13 +150,10 @@ int main()
     // prtMemoria();
     while (1) // Ciclo da CPU
     {
-        int a = 0;
-        printf("\nSe vc quer continuar tecle 1\n");
-        scanf("%d", &a);
-
-        if (a == 1)
-            busca();
+        busca();
         mostraStatus();
+        printf("\nPressione Enter para prosseguir!\n");
+        getchar(); // Enquanto não pressionar enter fica pausado
     }
     return 0;
 }
