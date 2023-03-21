@@ -109,6 +109,7 @@ void prtMemoria()
         }
     }
 }
+
 int main()
 {
     setMemoria();
