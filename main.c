@@ -33,13 +33,11 @@ void busca()
         MBR = MBR << 8;
         MBR = MBR | MEM[MAR]; // RESULTADO 9880A082
         // printf("\n MBR na busca e %x \n", MBR);
-        decodifica();
     }
     else
     {
         // printf("\n executando uma tarefa right \n");
         PC += 4;
-        decodifica();
     }
 }
 void decodifica()
@@ -51,19 +49,16 @@ void decodifica()
         MBR = MBR >> 16;
         MAR = MBR & 0X7FF;
         IR = MBR >> 11;
-        LR = 1;
-        // printf("\n %d OPC left \n", IR);
-        executa();
+        // LR = 1; // LR MUDA AQUI OU NO EXEC
+        //  printf("\n %d OPC left \n", IR);
     }
     else
     {
         printf("\n executando uma tarefa right \n");
-        LR = 0;
+        // LR = 0;
         MAR = IBR & 0X7FF;
         IR = IBR >> 11;
         // printf("\n %x OPC right \n", IR);
-
-        executa();
     }
 }
 void executa()
@@ -72,6 +67,7 @@ void executa()
     { // ADD
         A = A * B;
         // printf("\n somando registradores, valor = %d \n", A);
+        mudaLR();
     }
     else if (IR == 0b10011)
     { // LDA
@@ -81,6 +77,7 @@ void executa()
         MBR = MBR | MEM[MAR];
         A = MBR & 0xFFFF;
         // printf("\n usando o registrador A = %d \n", A);
+        mudaLR();
     }
     else if (IR == 0b10100)
     { // LDB
@@ -90,10 +87,10 @@ void executa()
         MBR = MBR | MEM[MAR];
         B = MBR & 0xFFFF;
         // printf("\n usando o registrador B = %d \n", B);
+        mudaLR();
     }
     else
     {
-        return 0;
     }
 }
 void setMemoria()
@@ -125,7 +122,10 @@ void mostraStatus()
 
     prtMemoria();
 }
-
+void mudaLR()
+{
+    LR = !LR;
+}
 int main()
 {
     setMemoria();
@@ -150,10 +150,14 @@ int main()
     // prtMemoria();
     while (1) // Ciclo da CPU
     {
-        busca();
+
         mostraStatus();
+        // Enquanto não pressionar enter fica pausado
+        busca();
+        decodifica();
+        executa();
         printf("\nPressione Enter para prosseguir!\n");
-        getchar(); // Enquanto não pressionar enter fica pausado
+        getchar();
     }
     return 0;
 }
