@@ -10,14 +10,14 @@
 #define or 0b01001
 #define xor 0b01010
 #define not 0b01011
-#define je 0b01100
-#define jne 0b01101
-#define jl 0b01110
-#define jle 0b01111
-#define jg 0b10000
-#define jge 0b10001
-#define jmp 0b10010
-#define lda 0b10011 // Provavelmente é melhor tirar o M[X] e deixar só lda e ldb
+#define je 0b01100 //JUMP IF EQUAL TO: muda o registrador PC para o endereço de memória X caso E = 1.
+#define jne 0b01101 //JUMP IF NOT EQUAL TO: muda o registrador PC para o endereço de memória X caso E = 0.
+#define jl 0b01110 //JUMP IF LOWER THAN: muda o registrador PC para o endereço de memória X caso L = 1.
+#define jle 0b01111 //JUMP IF LOWER THAN OR EQUAL TO: muda o registrador PC para o endereço de memória X caso E = 1 ou L = 1.
+#define jg 0b10000 //JUMP IF GREATER THAN: muda o registrador PC para o endereço de memória X caso G = 1.
+#define jge 0b10001 //JUMP IF GREATER THAN OR EQUAL TO: muda o registrador PC para o endereço de memória X caso E = 1 ou G = 1.
+#define jmp 0b10010 //JUMP: muda o registrador PC para o endereço de memória X
+#define lda 0b10011 
 #define ldb 0b10100
 #define sta 0b10101
 #define stb 0b10110
