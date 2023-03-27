@@ -80,23 +80,16 @@ void executa(){
         A=A-B;
         mudaLR();
     }
-    else if (IR==div)
-    {
-        A=A/B;
-        mudaLR();
-    } 
     else if(IR == mul){ // mul
         A = A * B;
         printf("\n mul registradores, valor = %d \n", A);
         mudaLR();
     }
-    else if (IR == div)
-    {
+    else if (IR == div){
         A = A / B;
         mudaLR();
     }
-    else if (IR == lda)
-    { // LDA
+    else if (IR == lda){ // LDA
         MBR = MEM[MAR];
         MBR = MBR << 8;
         MAR++;
@@ -105,8 +98,7 @@ void executa(){
         printf("\n usando o registrador A = %d \n", A);
         mudaLR();
     }
-    else if (IR == ldb)
-    { // LDB
+    else if (IR == ldb){ // LDB
         MBR = MEM[MAR];
         MBR = MBR << 8;
         MAR++;
@@ -187,19 +179,16 @@ void executa(){
             PC = MAR;
         mudaLR();
     }
-    else if (IR == jge)
-    {
+    else if (IR == jge){
         if (G == 1 || E == 1)
             PC = MAR;
         mudaLR();
     }
-    else if (IR == jmp)
-    {
+    else if (IR == jmp){
         PC = MAR;
         mudaLR();
     }
     else if(IR==sta){ //STORE A
-
         MEM[MAR]=A>>8;
         MEM[MAR+1]=A & 0xFF;
         mudaLR();
