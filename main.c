@@ -16,15 +16,10 @@ unsigned short int A = 0x0000; // Registe A
 unsigned short int B = 0x0000; // Registe B
 unsigned short int T;
 
-<<<<<<< HEAD
 void mudaLR(){
     LR = !LR;
 }
 void busca(){
-=======
-void busca()
-{
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
     if (LR == 0)
     {
         MAR = PC;
@@ -40,15 +35,8 @@ void busca()
         MBR = MBR | MEM[MAR]; // RESULTADO 9880A082
     }
 }
-<<<<<<< HEAD
 void decodifica(){
     if (LR == 0 ){
-=======
-void decodifica()
-{
-    if (LR == 0)
-    {
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
         printf("\n decodificando uma tarefa left \n");
         IBR = MBR & 0xFFFF;
         MBR = MBR >> 16; 
@@ -63,7 +51,6 @@ void decodifica()
     {
         printf("\n decodificando uma tarefa right \n");
         IR = IBR >> 11;
-<<<<<<< HEAD
         if (IR >= 0b11000 && IR <= 0b11111){ // VERIFICA SE É IMEDIATO
             IMM = IBR & 0X7FF;
         }else{
@@ -99,35 +86,6 @@ void executa(){
         mudaLR();
     } 
     else if(IR == mul){ // mul
-=======
-        if (IR != hlt)
-            PC += 4;
-    }
-}
-void executa()
-{
-    if (IR == hlt)
-    {
-        // Faz nada
-    }
-    else if (IR == nop)
-    {
-        PC += 4;
-        mudaLR();
-    }
-    else if (IR == add)
-    {
-        A = A + B;
-        mudaLR();
-    }
-    else if (IR == sub)
-    {
-        A = A - B;
-        mudaLR();
-    }
-    else if (IR == mul)
-    { // mul
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
         A = A * B;
         printf("\n mul registradores, valor = %d \n", A);
         mudaLR();
@@ -179,7 +137,6 @@ void executa()
             G = 0;
         mudaLR();
     }
-<<<<<<< HEAD
     else if(IR==xchg){
         T=A;
         A=B;
@@ -203,11 +160,6 @@ void executa()
     }
     else if (IR == je){
         if(E==1)
-=======
-    else if (IR == je)
-    {
-        if (E == 1)
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
             PC = MAR;
         mudaLR();
     }
@@ -246,7 +198,6 @@ void executa()
         PC = MAR;
         mudaLR();
     }
-<<<<<<< HEAD
     else if(IR==sta){ //STORE A
 
         MEM[MAR]=A>>8;
@@ -289,61 +240,26 @@ void executa()
 }
 void setMemoria(){ // inicializa a memoria
     for (int i = 0x00; i < 0x9A; i++)
-=======
-    if (IR == sta)
-    {
-        MEM[MAR] = A >> 8;
-        printf("%o", MAR);
-        MEM[MAR] = A & 0xFF;
-        printf("%u", MAR);
-        mudaLR();
-    } // M[X] 0b10101 STORE A: armazena em uma palavra de 16 bits que começa a partir do endereço de memória X o conteúdo do registrador A.
-    if (IR == stb)
-    {
-        MEM[MAR] = B >> 8;
-        MEM[MAR++] = B & 0xFF;
-        mudaLR();
-    } // M[X] 0b10110 STORE B: armazena em uma palavra de 16 bits que começa a partir do endereço de memória X o conteúdo do registrador B.
-}
-void setMemoria()
-{ // inicializa a memoria
-    for (int i = 0; i < 154; i++)
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
         MEM[i] = hlt;
 }
 void prtMemoria()
 { // printa a memoria
     printf("\nMEMORIA:\n");
-<<<<<<< HEAD
     for (int i = 0x00; i < 0x9A; i++){
         printf("%X: \t0x%X\t", i, MEM[i]); // MOSTRA A POSIÇÃO E O VALOR ARMAZENADO NESSA POSIÇÃO EM HEX
         if (i > 0 && (i + 1) % 4 == 0){
-=======
-    for (int i = 0; i < 154; i++)
-    {
-        printf("%02d: \t0x%X\t", i, MEM[i]); // MOSTRA A POSIÇÃO E O VALOR ARMAZENADO NESSA POSIÇÃO EM HEX
-        if (i > 0 && (i + 1) % 3 == 0)
-        {
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
             printf("\n");
         }
     }
 }
-<<<<<<< HEAD
 void mostraStatus(){
     printf("\n\nCPU:\n");
-=======
-void mostraStatus()
-{
-    printf("CPU:\n");
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
     printf("A:\t0x%X \tB:\t0x%X \tT:\t0x%X \n", A, B, T);
     printf("MBR:\t0x%X \tMAR:\t0x%X \tIMM:\t0x%X \n", MBR, MAR, IMM);
     printf("PC:\t%d \tIR:\t0x%X \tLR:\t0x%X \n", PC, IR, LR);
     printf("E:\t0x%X \tL:\t0x%X \tG:\t0x%X \n", E, L, G);
 }
 
-<<<<<<< HEAD
 int main(){
     setMemoria();
     PC = 0;
@@ -359,39 +275,6 @@ int main(){
     printf("\nPressione Enter para INICIAR!\n");
     getchar();
     while (1){// Ciclo da CPU
-=======
-    prtMemoria();
-}
-void mudaLR()
-{
-    LR = !LR;
-}
-int main()
-{
-    setMemoria();
-    PC = 40;
-    MEM[40] = 0x98;
-    MEM[41] = 0x80; // lda
-    MEM[42] = 0xA0;
-    MEM[43] = 0x82; // ldb
-    MEM[44] = 0xA8;
-    MEM[45] = 0x88; // mul
-    MEM[46] = 0x30;
-    MEM[47] = 0x00; // cmp
-    MEM[48] = 0x60;
-    MEM[49] = 0x92; // je
-    MEM[50] = 0x00;
-    MEM[51] = 0x00;
-    MEM[52] = 0x00;
-    MEM[128] = 0x00;
-    MEM[129] = 0x02;
-    MEM[130] = 0X00;
-    MEM[131] = 0x05;
-    // prtMemoria();
-    while (1)
-    { // Ciclo da CPU
-        mostraStatus();
->>>>>>> 2539de7b40cfaf02937766fd00aa48cc62927925
         // Enquanto não pressionar enter fica pausado
         busca();
         decodifica();
