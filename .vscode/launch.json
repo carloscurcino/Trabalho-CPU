@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/bruno/Faculdade/Periodo_3/arquitetura/trab-implementacao/Trabalho-CPU/output",
-      "program": "c:/Users/bruno/Faculdade/Periodo_3/arquitetura/trab-implementacao/Trabalho-CPU/output/build/Debug/outDebug",
+      "cwd": "c:/Users/bruno/Faculdade/Periodo_3/arquitetura/trab-implementacao/Trabalho-CPU",
+      "program": "c:/Users/bruno/Faculdade/Periodo_3/arquitetura/trab-implementacao/Trabalho-CPU/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
