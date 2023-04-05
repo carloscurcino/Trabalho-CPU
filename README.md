@@ -16,4 +16,4 @@ Após a execução das instruções, o programa encerrará automaticamente. Para
 
 Observações:
 
-É possível modificar as instruções a serem executadas editando a função "main" no arquivo "simulador.c".
+É possível modificar as instruções a serem executadas editando a váriavel "nomeArquivo" na função "main" no arquivo "main.c".
