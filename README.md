@@ -39,17 +39,22 @@ nenhuma operação com ponto-flutuante. Ademais, não é necessário implementar
 sinalizada. Embora o formato de instrução permita endereçar até 2^11 = 2.048 palavras de oito bits na memória, a memória
 possui apenas 154 endereços, como apresentado acima, abrangendo os endereços de 0 (0x0) a 153 (0x99).
 
-O programa simulará a execução de um conjunto de instruções pré-definidas na função "main". As instruções são armazenadas na memória do simulador e executadas em sequência. Antes de ser feita a leitura do arquivo é exibido as informações do que há na memória e nos registradores, depois da leitura é exibido de novo e então inicia-se a execução ao pressionar enter. Durante a execução, o simulador exibirá na tela informações sobre as operações que estão sendo realizadas.
+O programa simulará a execução de um conjunto de instruções codificadas como `endereço;instrução/dado;palavra de instrução ou palavra de dado` definidas no arquivo "instrucoes.txt". As instruções são armazenadas na memória do simulador e após isso a CPU parte para o clico **Busca, Decofica e Executa**. Antes de ser feita a leitura do arquivo é exibido as informações do que há na memória e nos registradores, depois da leitura é exibido de novo e então inicia-se a execução ao pressionar **ENTER**. Durante a execução, o simulador exibirá na tela informações sobre os resgistradores e o estado atual da MEmória.
 
-Após a execução das instruções, o programa encerrará automaticamente. Para proseguir com o programa deve se pressionar enter, e assim ele entra no próximo ciclo de máquina.
+Assim como em uma CPU (que está em um clico infinito, mesmo que não esteja fazendo nada) mesmo que se encerre todas a instruções ela continuara ativa a não ser que mate o processo.
 
-## Codificação:
+## Conjunto de Instruções:
 
+![](https://github.com/carloscurcino/Trabalho-CPU/blob/main/imagens/conjuntoDeInstrucoes.png)
 
+## Formato de Instruções:
+
+![](https://github.com/carloscurcino/Trabalho-CPU/blob/main/imagens/formatoDeInstrucao.png)
+![](https://github.com/carloscurcino/Trabalho-CPU/blob/main/imagens/formatoDeIntrucao2.png)
 
 ## Observações:
 
-Deve-se verificar se o arquivo "instruções.txt" está no diretório raiz juntamente com o programa "main.c"
+Deve-se verificar se o arquivo "instrucoes.txt" está no diretório raiz juntamente com o programa "main.c"
 
 É possível modificar as instruções a serem executadas editando o arquivo instruções.txt do diretório.
 Basta abrir o arquivo e modificar o "programa" que será executado por essa simulação da "CPU"
