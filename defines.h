@@ -30,3 +30,4 @@
 #define diviaImm 0b11101
 #define lshImm 0b11110
 #define rshImm 0b11111
+#define tamanhoMemoria 0x9A

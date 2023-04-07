@@ -4,7 +4,7 @@
 c;i;ldb 92/mul
 10;i;ldb 90/add
 14;i;sta 8e/hlt
-90;d;32
+90;d;20
 92;d;3
 94;d;4
 96;d;5

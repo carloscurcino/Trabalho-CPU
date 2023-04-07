@@ -3,7 +3,7 @@ Anotações/Manual de uso
 Para utilizar o programa, siga os passos abaixo:
 
 - Compile o arquivo "main.c" usando um compilador C. Navegue até o diretório onde está o arquivo "main.c" e digite o seguinte comando:
-   gcc main.c -o main
+   gcc -o main main.c
 
 - Execute o programa compilado com o comando abaixo:
     ./main
