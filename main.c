@@ -3,25 +3,27 @@
 #include <string.h>
 #include "defines.h"
 
-typedef struct {
-    unsigned short int PC;         // program counter
-    unsigned int MBR;  // memory buffer register
-    unsigned short int MAR;        // memory address register
-    unsigned char IR ;             // instruction register
+typedef struct
+{
+    unsigned short int PC;  // program counter
+    unsigned int MBR;       // memory buffer register
+    unsigned short int MAR; // memory address register
+    unsigned char IR;       // instruction register
     unsigned short int IMM;
-    unsigned short int IBR ;// instruction buffer register
+    unsigned short int IBR; // instruction buffer register
     unsigned short int AC;
-    unsigned char E, L, G  ;       // accumulator register
-    unsigned char LR   ;   // Flag Left/Right
-    unsigned short int A ;// Registe A
-    unsigned short int B;// Registe B
+    unsigned char E, L, G; // accumulator register
+    unsigned char LR;      // Flag Left/Right
+    unsigned short int A;  // Registe A
+    unsigned short int B;  // Registe B
     unsigned short int T;
 } Registrador;
 
 Registrador registrador;
 unsigned char MEM[0x99];
 
-void inicializaRegistrador(){
+void inicializaRegistrador()
+{
     registrador.PC = 0;
     registrador.MBR = 0;
     registrador.MAR = 0;
@@ -40,24 +42,29 @@ void inicializaRegistrador(){
 
 void inicializaMemoria()
 {
-    for (int i = 0; i < tamanhoMemoria; i++) {
+    for (int i = 0; i < tamanhoMemoria; i++)
+    {
         MEM[i] = hlt;
     }
 }
 
-void imprimeMemoria() {
+void imprimeMemoria()
+{
     const int colunasPorLinha = 6;
 
     printf("\nMEMORIA:\n");
-    for (int endereco = 0; endereco < tamanhoMemoria; endereco++) {
+    for (int endereco = 0; endereco < tamanhoMemoria; endereco++)
+    {
         printf("%04X: 0x%04X\t", endereco, MEM[endereco]);
-        if ((endereco + 1) % colunasPorLinha == 0) {
+        if ((endereco + 1) % colunasPorLinha == 0)
+        {
             printf("\n");
         }
     }
 }
 
-void imprimeEstadoCPU(){
+void imprimeEstadoCPU()
+{
     printf("\n\nCPU:\n");
     printf("A:\t0x%02X \tB:\t0x%02X \tT:\t0x%02X \n", registrador.A, registrador.B, registrador.T);
     printf("MBR:\t0x%04X \tMAR:\t0x%04X \tIMM:\t0x%02X \n", registrador.MBR, registrador.MAR, registrador.IMM);
@@ -65,7 +72,8 @@ void imprimeEstadoCPU(){
     printf("E:\t0x%01X \tL:\t0x%01X \tG:\t0x%01X \n", registrador.E, registrador.L, registrador.G);
 }
 
-void mudaLR(){
+void mudaLR()
+{
     registrador.LR = !registrador.LR;
 }
 
@@ -75,7 +83,8 @@ void busca()
     {
         registrador.MAR = registrador.PC;
         registrador.MBR = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             registrador.MBR <<= 8;
             registrador.MBR |= MEM[registrador.MAR + i];
         }
@@ -138,16 +147,19 @@ void executa()
         registrador.A = registrador.A - registrador.B;
         mudaLR(registrador);
     }
-    else if(registrador.IR == mul){ // mul
+    else if (registrador.IR == mul)
+    { // mul
         registrador.A = registrador.A * registrador.B;
         printf("\n mul registradores, valor = %d \n", registrador.A);
         mudaLR(registrador);
     }
-    else if (registrador.IR == div){
-        registrador.A =  registrador.A / registrador.B;
+    else if (registrador.IR == div)
+    {
+        registrador.A = registrador.A / registrador.B;
         mudaLR(registrador);
     }
-    else if (registrador.IR == lda){ // LDA
+    else if (registrador.IR == lda)
+    { // LDA
         registrador.MBR = MEM[registrador.MAR];
         registrador.MBR = registrador.MBR << 8;
         registrador.MAR++;
@@ -156,7 +168,8 @@ void executa()
         printf("\n usando o registrador A = %d \n", registrador.A);
         mudaLR(registrador);
     }
-    else if (registrador.IR == ldb){ // LDB
+    else if (registrador.IR == ldb)
+    { // LDB
         registrador.MBR = MEM[registrador.MAR];
         registrador.MBR = registrador.MBR << 8;
         registrador.MAR++;
@@ -240,18 +253,21 @@ void executa()
             registrador.PC = registrador.MAR;
         mudaLR(registrador);
     }
-    else if (registrador.IR == jge){
+    else if (registrador.IR == jge)
+    {
         if (registrador.G == 1 || registrador.E == 1)
             registrador.PC = registrador.MAR;
         mudaLR(registrador);
     }
-    else if (registrador.IR == jmp){
+    else if (registrador.IR == jmp)
+    {
         registrador.PC = registrador.MAR;
         mudaLR(registrador);
     }
-    else if(registrador.IR==sta){ //STORE A
-        MEM[registrador.MAR]=registrador.A>>8;
-        MEM[registrador.MAR+1]=registrador.A & 0xFF;
+    else if (registrador.IR == sta)
+    { // STORE A
+        MEM[registrador.MAR] = registrador.A >> 8;
+        MEM[registrador.MAR + 1] = registrador.A & 0xFF;
         mudaLR(registrador);
     }
     else if (registrador.IR == stb)
@@ -298,11 +314,13 @@ void executa()
     }
 }
 
-int encontraInicio(char *nomeArquivo){
+int encontraInicio(char *nomeArquivo)
+{
     FILE *arquivo;
     int num;
     arquivo = fopen(nomeArquivo, "r");
-    if (arquivo == NULL) {
+    if (arquivo == NULL)
+    {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
     }
@@ -312,170 +330,242 @@ int encontraInicio(char *nomeArquivo){
     return num;
 }
 
-void armazenaDado(char *palavraDado,int enderecoInstrucao){
+void armazenaDado(char *palavraDado, int enderecoInstrucao)
+{
     int *pointAuxiliar;
-    unsigned short int dado = strtol(palavraDado, &pointAuxiliar,16);
-    MEM[enderecoInstrucao]=dado>>8;
-    MEM[enderecoInstrucao+1]=dado & 0xff;
+    unsigned short int dado = strtol(palavraDado, &pointAuxiliar, 16);
+    MEM[enderecoInstrucao] = dado >> 8;
+    MEM[enderecoInstrucao + 1] = dado & 0xff;
 }
 
-void armazemaIntrucao(unsigned short int palavraInstrucao, int flagRightleft, int enderecoInstrucao, int palavraEndereco ){
+void armazemaIntrucao(unsigned short int palavraInstrucao, int flagRightleft, int enderecoInstrucao, int palavraEndereco)
+{
 
-    if (flagRightleft==0){
+    if (flagRightleft == 0)
+    {
         MEM[enderecoInstrucao] = palavraInstrucao;
-        MEM[enderecoInstrucao+1] = palavraEndereco & 0xff;
-    
-    }else if (flagRightleft==1){
-        MEM[enderecoInstrucao+2] = palavraInstrucao;
-        MEM[enderecoInstrucao+3] = palavraEndereco & 0xff;
-    
-    }else{
+        MEM[enderecoInstrucao + 1] = palavraEndereco & 0xff;
+    }
+    else if (flagRightleft == 1)
+    {
+        MEM[enderecoInstrucao + 2] = palavraInstrucao;
+        MEM[enderecoInstrucao + 3] = palavraEndereco & 0xff;
+    }
+    else
+    {
         printf("Programa deu erro ao armazena instrucao em memoria!");
         exit(1);
     }
 }
 
-void processaInstrucao(char* palavraInstrucao, int enderecoInstrucao){
+void processaInstrucao(char *palavraInstrucao, int enderecoInstrucao)
+{
 
-    char* instrucao1_endereco1_str = strtok(palavraInstrucao, "/");
-    char* instrucao2_endereco2_str = strtok(NULL, "/");
+    char *instrucao1_endereco1_str = strtok(palavraInstrucao, "/");
+    char *instrucao2_endereco2_str = strtok(NULL, "/");
 
-    char* instrucao1_str = strtok(instrucao1_endereco1_str, " ");
+    char *instrucao1_str = strtok(instrucao1_endereco1_str, " ");
     int endereco1 = strtol(strtok(NULL, " "), NULL, 16);
 
-    char* instrucao2_str = strtok(instrucao2_endereco2_str, " ");
+    char *instrucao2_str = strtok(instrucao2_endereco2_str, " ");
     int endereco2 = strtol(strtok(NULL, " "), NULL, 16);
 
-    unsigned short int palavraInstrucaoLeft =  decodificaInstrucao(instrucao1_str);
-    palavraInstrucaoLeft = palavraInstrucaoLeft<<3;
+    unsigned short int palavraInstrucaoLeft = decodificaInstrucao(instrucao1_str);
+    palavraInstrucaoLeft = palavraInstrucaoLeft << 3;
     palavraInstrucaoLeft = palavraInstrucaoLeft | (endereco1 & 0x700);
-    armazemaIntrucao(palavraInstrucaoLeft,0,enderecoInstrucao,endereco1);
+    armazemaIntrucao(palavraInstrucaoLeft, 0, enderecoInstrucao, endereco1);
 
-    unsigned short int palavraInstrucaoRight =  decodificaInstrucao(instrucao2_str);
-    palavraInstrucaoRight = palavraInstrucaoRight<<3;
+    unsigned short int palavraInstrucaoRight = decodificaInstrucao(instrucao2_str);
+    palavraInstrucaoRight = palavraInstrucaoRight << 3;
     palavraInstrucaoRight = palavraInstrucaoRight | (endereco2 & 0x700);
-    armazemaIntrucao(palavraInstrucaoRight,1,enderecoInstrucao,endereco2);
-
+    armazemaIntrucao(palavraInstrucaoRight, 1, enderecoInstrucao, endereco2);
 }
 
-
-void lerArquivo(char *nomeArquivo){
+void lerArquivo(char *nomeArquivo)
+{
     FILE *arquivo = fopen(nomeArquivo, "r");
-    
-    if (arquivo == NULL) {
+
+    if (arquivo == NULL)
+    {
         printf("\nOcorreu um erro ao abrir o arquivo!\n");
         exit(1);
-    } 
-    
+    }
+
     char linha[50];
-    unsigned int enderecoInstrucao=0;
-    
-    //Necessário encontrar o inicio do programa em memória
-    while(fgets(linha, sizeof(linha), arquivo)) {
+    unsigned int enderecoInstrucao = 0;
+
+    // Necessário encontrar o inicio do programa em memória
+    while (fgets(linha, sizeof(linha), arquivo))
+    {
         char palavraCompacta[20];
         char tipoInstrucao;
 
         sscanf(linha, "%x;%c;%[^\n]s", &enderecoInstrucao, &tipoInstrucao, palavraCompacta);
-        
-        if (tipoInstrucao=='i')
-        {   
+
+        if (tipoInstrucao == 'i')
+        {
             processaInstrucao(palavraCompacta, enderecoInstrucao);
         }
-        else if(tipoInstrucao=='d')
+        else if (tipoInstrucao == 'd')
         {
             armazenaDado(palavraCompacta, enderecoInstrucao);
         }
         else
         {
-            printf("Tipo de instrução inválido. Use 'i' para instrução ou 'd' para dado.\n");
+            printf("Tipo de instrucao invalido. Use 'i' para instrucao ou 'd' para dado.\n");
             exit(1);
         }
-        
     }
     fclose(arquivo);
 }
 
-int decodificaInstrucao(char *str) {
-    if (strcmp(str, "hlt") == 0) {
+int decodificaInstrucao(char *str)
+{
+    if (strcmp(str, "hlt") == 0)
+    {
         return 0b00000;
-    }else if (strcmp(str, "nop") == 0){
+    }
+    else if (strcmp(str, "nop") == 0)
+    {
         return 0b00001;
-    }else if (strcmp(str, "add") == 0){
+    }
+    else if (strcmp(str, "add") == 0)
+    {
         return 0b00010;
-    }else if (strcmp(str, "sub") == 0){
+    }
+    else if (strcmp(str, "sub") == 0)
+    {
         return 0b00011;
-    }else if (strcmp(str, "mul") == 0){
+    }
+    else if (strcmp(str, "mul") == 0)
+    {
         return 0b00100;
-    } else if (strcmp(str, "div") == 0) {
+    }
+    else if (strcmp(str, "div") == 0)
+    {
         return 0b00101;
-    } else if (strcmp(str, "cmp") == 0) {
+    }
+    else if (strcmp(str, "cmp") == 0)
+    {
         return 0b00110;
-    } else if (strcmp(str, "xchg") == 0) {
+    }
+    else if (strcmp(str, "xchg") == 0)
+    {
         return 0b00111;
-    } else if (strcmp(str, "and") == 0) {
+    }
+    else if (strcmp(str, "and") == 0)
+    {
         return 0b01000;
-    } else if (strcmp(str, "or") == 0) {
+    }
+    else if (strcmp(str, "or") == 0)
+    {
         return 0b01001;
-    } else if (strcmp(str, "xor") == 0) {
+    }
+    else if (strcmp(str, "xor") == 0)
+    {
         return 0b01010;
-    } else if (strcmp(str, "not") == 0) {
+    }
+    else if (strcmp(str, "not") == 0)
+    {
         return 0b01011;
-    } else if(strcmp(str, "je") == 0) {
+    }
+    else if (strcmp(str, "je") == 0)
+    {
         return 0b01100;
-    } else if (strcmp(str,"jne")==0) {
+    }
+    else if (strcmp(str, "jne") == 0)
+    {
         return 0b01101;
-    }else if (strcmp(str,"jl")==0) {
+    }
+    else if (strcmp(str, "jl") == 0)
+    {
         return 0b01110;
-    }else if (strcmp(str,"jle")==0) {
+    }
+    else if (strcmp(str, "jle") == 0)
+    {
         return 0b01111;
-    }else if (strcmp(str,"jg")==0) {
+    }
+    else if (strcmp(str, "jg") == 0)
+    {
         return 0b10000;
-    }else if (strcmp(str,"jge")==0){
+    }
+    else if (strcmp(str, "jge") == 0)
+    {
         return 0b10001;
-    }else if (strcmp(str,"jmp")==0){
+    }
+    else if (strcmp(str, "jmp") == 0)
+    {
         return 0b10010;
-    }else if (strcmp(str,"lda")==0){
+    }
+    else if (strcmp(str, "lda") == 0)
+    {
         return 0b10011;
-    }else if (strcmp(str,"ldb")==0){
+    }
+    else if (strcmp(str, "ldb") == 0)
+    {
         return 0b10100;
-    }else if (strcmp(str,"sta")==0){
+    }
+    else if (strcmp(str, "sta") == 0)
+    {
         return 0b10101;
-    }else if (strcmp(str,"stb")==0){
+    }
+    else if (strcmp(str, "stb") == 0)
+    {
         return 0b10110;
-    }else if (strcmp(str,"ldrb")==0){
+    }
+    else if (strcmp(str, "ldrb") == 0)
+    {
         return 0b10111;
-    }else if (strcmp(str,"movial")==0){
+    }
+    else if (strcmp(str, "movial") == 0)
+    {
         return 0b11000;
-    }else if (strcmp(str,"moviah")==0){
+    }
+    else if (strcmp(str, "moviah") == 0)
+    {
         return 0b11001;
-    }else if (strcmp(str,"addia")==0){
+    }
+    else if (strcmp(str, "addia") == 0)
+    {
         return 0b11010;
-    }else if (strcmp(str,"subia")==0){
+    }
+    else if (strcmp(str, "subia") == 0)
+    {
         return 0b11011;
-    }else if (strcmp(str,"mulia")==0){
+    }
+    else if (strcmp(str, "mulia") == 0)
+    {
         return 0b11100;
-    }else if (strcmp(str,"divia")==0){
+    }
+    else if (strcmp(str, "divia") == 0)
+    {
         return 0b11101;
-    }else if (strcmp(str,"lsh")==0){
+    }
+    else if (strcmp(str, "lsh") == 0)
+    {
         return 0b11110;
-    }else if (strcmp(str,"rsh")==0){
+    }
+    else if (strcmp(str, "rsh") == 0)
+    {
         return 0b11111;
-    }else{
+    }
+    else
+    {
         printf("Erro ao decodificar instrucao!!");
         exit(1);
     }
 }
 
 int main()
-{   
-    char nomeArquivo1[]="instrucoes.txt";
+{
+    char nomeArquivo1[] = "instrucoes.txt";
     inicializaRegistrador();
     inicializaMemoria();
     imprimeMemoria();
     imprimeEstadoCPU();
     printf("\nPressione Enter para LER o arquivo!\n");
     getchar();
-    registrador.PC=encontraInicio(nomeArquivo1);
+    registrador.PC = encontraInicio(nomeArquivo1);
     lerArquivo(nomeArquivo1);
     imprimeMemoria();
     imprimeEstadoCPU();
