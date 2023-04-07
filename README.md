@@ -44,7 +44,7 @@ nenhuma operação com ponto-flutuante. Ademais, não é necessário implementar
 sinalizada. Embora o formato de instrução permita endereçar até 2^11 = 2.048 palavras de oito bits na memória, a memória
 possui apenas 154 endereços, como apresentado acima, abrangendo os endereços de 0 (0x0) a 153 (0x99).
 
-O programa simulará a execução de um conjunto de instruções codificadas como `endereço;instrução/dado;palavra de instrução ou palavra de dado` definidas no arquivo "instrucoes.txt". As instruções são armazenadas na memória do simulador e após isso a CPU parte para o clico **Busca, Decofica e Executa**. Antes de ser feita a leitura do arquivo é exibido as informações do que há na memória e nos registradores, depois da leitura é exibido de novo e então inicia-se a execução ao pressionar **ENTER**. Durante a execução, o simulador exibirá na tela informações sobre os resgistradores e o estado atual da MEmória.
+O programa simulará a execução de um conjunto de instruções codificadas como `endereço;instrução/dado;palavra de instrução ou palavra de dado` definidas no arquivo "instrucoes.txt". As instruções são armazenadas na memória do simulador e após isso a CPU parte para o ciclo **Busca, Decofica e Executa**. Antes de ser feita a leitura do arquivo é exibido as informações do que há na memória e nos registradores, depois da leitura é exibido de novo e então inicia-se a execução ao pressionar **ENTER**. Durante a execução, o simulador exibirá na tela informações sobre os resgistradores e o estado atual da MEmória.
 
 Assim como em uma CPU (que está em um clico infinito, mesmo que não esteja fazendo nada) mesmo que se encerre todas a instruções ela continuara ativa a não ser que mate o processo.
 
