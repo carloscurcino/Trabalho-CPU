@@ -61,8 +61,8 @@ Assim como em uma CPU (que está em um clico infinito, mesmo que não esteja faz
 
 Deve-se verificar se o arquivo "instrucoes.txt" está no diretório raiz juntamente com o programa "main.c"
 
-É possível modificar as instruções a serem executadas editando o arquivo instruções.txt do diretório.
-Basta abrir o arquivo e modificar o "programa" que será executado por essa simulação da "CPU"
+É possível modificar o programa a ser executado editando o arquivo instruções.txt do diretório.
+Basta abrir o arquivo e modificar as instruções, de acordo com a codificação, que será executado por essa simulação da "CPU"
 Conjunto de instruções ISA (Instruction Set Architecture)
 
 
