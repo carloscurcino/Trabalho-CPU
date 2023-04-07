@@ -332,91 +332,10 @@ int encontraInicio(char *nomeArquivo)
 
 void armazenaDado(char *palavraDado, int enderecoInstrucao)
 {
-    int *pointAuxiliar;
+    char *pointAuxiliar;
     unsigned short int dado = strtol(palavraDado, &pointAuxiliar, 16);
     MEM[enderecoInstrucao] = dado >> 8;
     MEM[enderecoInstrucao + 1] = dado & 0xff;
-}
-
-void armazemaIntrucao(unsigned short int palavraInstrucao, int flagRightleft, int enderecoInstrucao, int palavraEndereco)
-{
-
-    if (flagRightleft == 0)
-    {
-        MEM[enderecoInstrucao] = palavraInstrucao;
-        MEM[enderecoInstrucao + 1] = palavraEndereco & 0xff;
-    }
-    else if (flagRightleft == 1)
-    {
-        MEM[enderecoInstrucao + 2] = palavraInstrucao;
-        MEM[enderecoInstrucao + 3] = palavraEndereco & 0xff;
-    }
-    else
-    {
-        printf("Programa deu erro ao armazena instrucao em memoria!");
-        exit(1);
-    }
-}
-
-void processaInstrucao(char *palavraInstrucao, int enderecoInstrucao)
-{
-
-    char *instrucao1_endereco1_str = strtok(palavraInstrucao, "/");
-    char *instrucao2_endereco2_str = strtok(NULL, "/");
-
-    char *instrucao1_str = strtok(instrucao1_endereco1_str, " ");
-    int endereco1 = strtol(strtok(NULL, " "), NULL, 16);
-
-    char *instrucao2_str = strtok(instrucao2_endereco2_str, " ");
-    int endereco2 = strtol(strtok(NULL, " "), NULL, 16);
-
-    unsigned short int palavraInstrucaoLeft = decodificaInstrucao(instrucao1_str);
-    palavraInstrucaoLeft = palavraInstrucaoLeft << 3;
-    palavraInstrucaoLeft = palavraInstrucaoLeft | (endereco1 & 0x700);
-    armazemaIntrucao(palavraInstrucaoLeft, 0, enderecoInstrucao, endereco1);
-
-    unsigned short int palavraInstrucaoRight = decodificaInstrucao(instrucao2_str);
-    palavraInstrucaoRight = palavraInstrucaoRight << 3;
-    palavraInstrucaoRight = palavraInstrucaoRight | (endereco2 & 0x700);
-    armazemaIntrucao(palavraInstrucaoRight, 1, enderecoInstrucao, endereco2);
-}
-
-void lerArquivo(char *nomeArquivo)
-{
-    FILE *arquivo = fopen(nomeArquivo, "r");
-
-    if (arquivo == NULL)
-    {
-        printf("\nOcorreu um erro ao abrir o arquivo!\n");
-        exit(1);
-    }
-
-    char linha[50];
-    unsigned int enderecoInstrucao = 0;
-
-    // Necessário encontrar o inicio do programa em memória
-    while (fgets(linha, sizeof(linha), arquivo))
-    {
-        char palavraCompacta[20];
-        char tipoInstrucao;
-
-        sscanf(linha, "%x;%c;%[^\n]s", &enderecoInstrucao, &tipoInstrucao, palavraCompacta);
-
-        if (tipoInstrucao == 'i')
-        {
-            processaInstrucao(palavraCompacta, enderecoInstrucao);
-        }
-        else if (tipoInstrucao == 'd')
-        {
-            armazenaDado(palavraCompacta, enderecoInstrucao);
-        }
-        else
-        {
-            printf("Tipo de instrucao invalido. Use 'i' para instrucao ou 'd' para dado.\n");
-            exit(1);
-        }
-    }
-    fclose(arquivo);
 }
 
 int decodificaInstrucao(char *str)
@@ -554,6 +473,87 @@ int decodificaInstrucao(char *str)
         printf("Erro ao decodificar instrucao!!");
         exit(1);
     }
+}
+
+void armazemaIntrucao(unsigned short int palavraInstrucao, int flagRightleft, int enderecoInstrucao, int palavraEndereco)
+{
+
+    if (flagRightleft == 0)
+    {
+        MEM[enderecoInstrucao] = palavraInstrucao;
+        MEM[enderecoInstrucao + 1] = palavraEndereco & 0xff;
+    }
+    else if (flagRightleft == 1)
+    {
+        MEM[enderecoInstrucao + 2] = palavraInstrucao;
+        MEM[enderecoInstrucao + 3] = palavraEndereco & 0xff;
+    }
+    else
+    {
+        printf("Programa deu erro ao armazena instrucao em memoria!");
+        exit(1);
+    }
+}
+
+void processaInstrucao(char *palavraInstrucao, int enderecoInstrucao)
+{
+
+    char *instrucao1_endereco1_str = strtok(palavraInstrucao, "/");
+    char *instrucao2_endereco2_str = strtok(NULL, "/");
+
+    char *instrucao1_str = strtok(instrucao1_endereco1_str, " ");
+    int endereco1 = strtol(strtok(NULL, " "), NULL, 16);
+
+    char *instrucao2_str = strtok(instrucao2_endereco2_str, " ");
+    int endereco2 = strtol(strtok(NULL, " "), NULL, 16);
+
+    unsigned short int palavraInstrucaoLeft = decodificaInstrucao(instrucao1_str);
+    palavraInstrucaoLeft = palavraInstrucaoLeft << 3;
+    palavraInstrucaoLeft = palavraInstrucaoLeft | (endereco1 & 0x700);
+    armazemaIntrucao(palavraInstrucaoLeft, 0, enderecoInstrucao, endereco1);
+
+    unsigned short int palavraInstrucaoRight = decodificaInstrucao(instrucao2_str);
+    palavraInstrucaoRight = palavraInstrucaoRight << 3;
+    palavraInstrucaoRight = palavraInstrucaoRight | (endereco2 & 0x700);
+    armazemaIntrucao(palavraInstrucaoRight, 1, enderecoInstrucao, endereco2);
+}
+
+void lerArquivo(char *nomeArquivo)
+{
+    FILE *arquivo = fopen(nomeArquivo, "r");
+
+    if (arquivo == NULL)
+    {
+        printf("\nOcorreu um erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    char linha[50];
+    unsigned int enderecoInstrucao = 0;
+
+    // Necessário encontrar o inicio do programa em memória
+    while (fgets(linha, sizeof(linha), arquivo))
+    {
+        char palavraCompacta[20];
+        char tipoInstrucao;
+
+        sscanf(linha, "%x;%c;%[^\n]s", &enderecoInstrucao, &tipoInstrucao, palavraCompacta);
+
+        if (tipoInstrucao == 'i')
+        {
+            processaInstrucao(palavraCompacta, enderecoInstrucao);
+        }
+        else if (tipoInstrucao == 'd')
+        {
+            armazenaDado(palavraCompacta, enderecoInstrucao);
+        }
+        else
+        {
+            printf("Tipo de instrucao invalido. Use 'i' para instrucao ou 'd' para dado.\n");
+            exit(1);
+        }
+    }
+    fclose(arquivo);
 }
 
 int main()
