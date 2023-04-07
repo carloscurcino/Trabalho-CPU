@@ -1,0 +1,11 @@
+0;i;lda 96/ldb 98
+4;i;sub/xchg
+8;i;lda 94/div
+c;i;ldb 92/mul
+10;i;ldb 90/add
+14;i;sta 8e/hlt
+90;d;20
+92;d;3
+94;d;4
+96;d;5
+98;d;3
