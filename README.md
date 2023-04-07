@@ -1,6 +1,11 @@
 # Trabalho-CPU
-## Sobre
-Este projeto é um simulador de CPU de Von Neumann com o conjunto de instruções ISA (Instruction Set Architecture) implementado em linguagem C para a disciplina de Arquitetura e Organização de Computadores I do Instituto Federal de Educação, Ciência e Tecnologia de Goiás - Campus Anápolis.
+
+#### Este projeto é um simulador de CPU de Von Neumann com o conjunto de instruções ISA (Instruction Set Architecture) implementado em linguagem C para a disciplina de Arquitetura e Organização de Computadores I do Instituto Federal de Educação, Ciência e Tecnologia de Goiás - Campus Anápolis.
+
+#### Autores:
+
+##### Bruno R. da Silveira - https://github.com/eubrunors
+##### Carlos D. Curcino - https://github.com/carloscurcino
 
 ## Instruções de USO
 
