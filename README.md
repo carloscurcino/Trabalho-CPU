@@ -45,7 +45,7 @@ Não foram utilizados conceitos de orientação a objetos, pois isso complicaria
 ## Sobre 
 
 A CPU a ser implementada processa palavras de 16 bits contendo apenas números inteiros e, portanto, não há
-nenhuma operação com ponto-flutuante. Ademais, não é necessário implementar nenhuma representação de aritmética
+nenhuma operação com ponto-flutuante. Ademais, não há implementado nenhuma representação de aritmética
 sinalizada. Embora o formato de instrução permita endereçar até 2^11 = 2.048 palavras de oito bits na memória, a memória
 possui apenas 154 endereços, como apresentado acima, abrangendo os endereços de 0 (0x0) a 153 (0x99).
 
