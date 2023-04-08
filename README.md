@@ -5,6 +5,7 @@
 #### Autores:
 
 ##### Bruno R. da Silveira - https://github.com/eubrunors
+
 ##### Carlos D. Curcino - https://github.com/carloscurcino
 
 ## Instruções de USO
@@ -12,6 +13,7 @@
 Este programa pode ser compilado no terminal do Windows usando o compilador GCC (GNU Compiler Collection).
 
 - #### Pré-requisitos
+- 
 Certifique-se de que o GCC está instalado no seu sistema. Para verificar, abra o terminal e digite o seguinte comando:
 
 `gcc --version`
@@ -19,6 +21,7 @@ Certifique-se de que o GCC está instalado no seu sistema. Para verificar, abra 
 Se o GCC estiver instalado, você verá a versão instalada do compilador. Caso contrário, você precisará instalá-lo antes de continuar.
 
 - #### Compilação
+- 
 Abra o terminal e navegue até o diretório onde se encontra o arquivo main.c do programa.
 
 Digite o seguinte comando para compilar o programa:
