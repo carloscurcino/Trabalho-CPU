@@ -1,11 +1,19 @@
-0;i;lda 96/ldb 98
-4;i;sub/xchg
-8;i;lda 94/div
-c;i;ldb 92/mul
-10;i;ldb 90/add
-14;i;sta 8e/hlt
-90;d;20
-92;d;3
-94;d;4
-96;d;5
-98;d;3
+0;i;lda 90/ldb 92
+4;i;div/sta 88
+8;i;lda 96/ldb 98
+c;i;sub/ldb 94
+10;i;mul/ldb 88
+14;i;add/ldb 8a
+18;i;add/sta 8a
+1c;i;lda 8c/ldb 8e
+20;i;addia 1/sta 8c
+24;i;cmp/jle 0
+28;i;hlt/hlt
+8a;d;0
+8c;d;1
+8e;d;a
+90;d;a
+92;d;5
+94;d;3
+96;d;2
+98;d;1

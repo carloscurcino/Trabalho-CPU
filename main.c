@@ -130,33 +130,33 @@ void executa()
         if (registrador.LR == 1)
         {
             registrador.PC += 4;
-            mudaLR(registrador);
+            mudaLR();
         }
         else
         {
-            mudaLR(registrador);
+            mudaLR();
         }
     }
     else if (registrador.IR == add)
     {
         registrador.A = registrador.A + registrador.B;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == sub)
     {
         registrador.A = registrador.A - registrador.B;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == mul)
     { // mul
         registrador.A = registrador.A * registrador.B;
         printf("\n mul registradores, valor = %d \n", registrador.A);
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == div)
     {
         registrador.A = registrador.A / registrador.B;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == lda)
     { // LDA
@@ -166,7 +166,7 @@ void executa()
         registrador.MBR = registrador.MBR | MEM[registrador.MAR];
         registrador.A = registrador.MBR & 0xFFFF;
         printf("\n usando o registrador A = %d \n", registrador.A);
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == ldb)
     { // LDB
@@ -176,7 +176,7 @@ void executa()
         registrador.MBR = registrador.MBR | MEM[registrador.MAR];
         registrador.B = registrador.MBR & 0xFFFF;
         printf("\n usando o registrador B = %d \n", registrador.B);
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == cmp)
     {
@@ -210,107 +210,121 @@ void executa()
     else if (registrador.IR == and)
     {
         registrador.A = registrador.A & registrador.B;
+        mudaLR();
     }
     else if (registrador.IR == or)
     {
         registrador.A = registrador.A | registrador.B;
+        mudaLR();
     }
     else if (registrador.IR == xor)
     {
         registrador.A = registrador.A ^ registrador.B;
+        mudaLR();
     }
     else if (registrador.IR == not )
     {
         registrador.A = !registrador.A;
+        mudaLR();
     }
     else if (registrador.IR == je)
     {
         if (registrador.E == 1)
             registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == jne)
     {
         if (registrador.E == 0)
             registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == jl)
     {
         if (registrador.L == 1)
             registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == jle)
     {
         if (registrador.L == 1 || registrador.E == 1)
             registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == jg)
     {
         if (registrador.G == 1)
             registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == jge)
     {
         if (registrador.G == 1 || registrador.E == 1)
             registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == jmp)
     {
         registrador.PC = registrador.MAR;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == sta)
     { // STORE A
         MEM[registrador.MAR] = registrador.A >> 8;
         MEM[registrador.MAR + 1] = registrador.A & 0xFF;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == stb)
     { // STORE B
         MEM[registrador.MAR] = registrador.B >> 8;
         MEM[registrador.MAR + 1] = registrador.B & 0xFF;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == movialImm)
     { // MOVE IMMEDIATE TO LOWER A
         registrador.A = 0x0000;
         registrador.A = registrador.IMM & 0xFF;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == moviahImm)
     { // MOVE IMMEDIATE TO HIGHER A
         registrador.A = registrador.A | registrador.IMM << 8;
-        mudaLR(registrador);
-        printf("EXECUTEI AQUI %X", registrador.A);
+        mudaLR();
     }
     else if (registrador.IR == addiaImm)
     {
         registrador.A = registrador.A + registrador.IMM;
+        mudaLR();
     }
     else if (registrador.IR == subiaImm)
     {
         registrador.A = registrador.A - registrador.IMM;
+        mudaLR();
     }
     else if (registrador.IR == muliaImm)
     {
         registrador.A = registrador.A * registrador.IMM;
+        mudaLR();
     }
     else if (registrador.IR == diviaImm)
     {
         registrador.A = registrador.A / registrador.IMM;
+        mudaLR();
     }
     else if (registrador.IR == lshImm)
     {
         registrador.A = registrador.A << registrador.IMM;
+        mudaLR();
+    }
+    else if(registrador.IR == rshImm)
+    {
+        registrador.A = registrador.A >> registrador.IMM;
+        mudaLR();
     }
     else
     {
-        registrador.A = registrador.A >> registrador.IMM;
+        printf("Instrução invalida. Por favor confira novamente a entrada");
+        exit(1);
     }
 }
 
