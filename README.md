@@ -70,4 +70,4 @@ Conjunto de instruções ISA (Instruction Set Architecture)
 
 ## Bibliografia:
 
-SOARES, Lages, Nicolaci. Arquitetura e Organização de Computadores - 8ª edição. Editora LTC, 2010.
+Stallings, W. (2010). Arquitetura e organização de computadores (8ª ed.). São Paulo: Pearson Prentice Hall.
