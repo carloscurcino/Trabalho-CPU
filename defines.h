@@ -35,3 +35,19 @@
 #define MASK_UPPER_3BIT 0x700
 #define MASK_11BIT 0x7FF
 #define MASK_16BIT 0XFFFF
+
+typedef struct
+{
+    unsigned short int PC;  // program counter
+    unsigned int MBR;       // memory buffer register
+    unsigned short int MAR; // memory address register
+    unsigned char IR;       // instruction register
+    unsigned short int IMM;
+    unsigned short int IBR; // instruction buffer register
+    unsigned short int AC;
+    unsigned char E, L, G; // accumulator register
+    unsigned char LR;      // Flag Left/Right
+    unsigned short int A;  // Registe A
+    unsigned short int B;  // Registe B
+    unsigned short int T;
+} Registrador;
