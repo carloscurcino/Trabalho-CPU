@@ -353,7 +353,7 @@ void armazenaDado(char *palavraDado, int enderecoInstrucao)
     char *pointAuxiliar;
     unsigned short int dado = strtol(palavraDado, &pointAuxiliar, 16);
     MEM[enderecoInstrucao] = dado >> 8;
-    MEM[enderecoInstrucao + 1] = dado & 0xff;
+    MEM[enderecoInstrucao + 1] = dado & MASK_8BIT;
 }
 
 int decodificaInstrucao(char *str)
@@ -493,18 +493,18 @@ int decodificaInstrucao(char *str)
     }
 }
 
-void armazemaIntrucao(unsigned short int palavraInstrucao, int flagRightleft, int enderecoInstrucao, int palavraEndereco)
+void armazemaIntrucao( unsigned int posicaoPalavra, unsigned short int palavraInstrucao,  int palavraEndereco, int flagRightLeft)
 {
 
-    if (flagRightleft == 0)
+    if (flagRightLeft == 0)
     {
-        MEM[enderecoInstrucao] = palavraInstrucao;
-        MEM[enderecoInstrucao + 1] = palavraEndereco & 0xff;
+        MEM[posicaoPalavra] = palavraInstrucao;
+        MEM[posicaoPalavra + 1] = palavraEndereco & MASK_8BIT;
     }
-    else if (flagRightleft == 1)
+    else if (flagRightLeft == 1)
     {
-        MEM[enderecoInstrucao + 2] = palavraInstrucao;
-        MEM[enderecoInstrucao + 3] = palavraEndereco & 0xff;
+        MEM[posicaoPalavra + 2] = palavraInstrucao;
+        MEM[posicaoPalavra + 3] = palavraEndereco & MASK_8BIT;
     }
     else
     {
@@ -513,27 +513,32 @@ void armazemaIntrucao(unsigned short int palavraInstrucao, int flagRightleft, in
     }
 }
 
-void processaInstrucao(char *palavraInstrucao, int enderecoInstrucao)
+void processaInstrucao( unsigned int posicao, char* instrucao, int endereco, int flagRightLeft)
+{   
+    unsigned short int instrucaoDecodificada = decodificaInstrucao(instrucao);
+    instrucaoDecodificada = instrucaoDecodificada << 3;
+    instrucaoDecodificada |= (endereco & MASK_UPPER_3BIT);
+
+    armazemaIntrucao(posicao, instrucaoDecodificada, endereco, flagRightLeft);
+}
+
+void separaInstrucao(char *palavraCompacta, unsigned int posicaoPalavra)
 {
 
-    char *instrucao1_endereco1_str = strtok(palavraInstrucao, "/");
-    char *instrucao2_endereco2_str = strtok(NULL, "/");
+    char *textoInstrucaoEsquerda = strtok(palavraCompacta, "/");
+    char *textoInstrucaoDireita = strtok(NULL, "/");
 
-    char *instrucao1_str = strtok(instrucao1_endereco1_str, " ");
-    int endereco1 = strtol(strtok(NULL, " "), NULL, 16);
+    char *instrucaoEsquerda = strtok(textoInstrucaoEsquerda, " ");
+    int enderecoEsquerda = strtol(strtok(NULL, " "), NULL, 16);
 
-    char *instrucao2_str = strtok(instrucao2_endereco2_str, " ");
-    int endereco2 = strtol(strtok(NULL, " "), NULL, 16);
+    char *instrucaoDireita = strtok(textoInstrucaoDireita, " ");
+    int enderecoDireita = strtol(strtok(NULL, " "), NULL, 16);
 
-    unsigned short int palavraInstrucaoLeft = decodificaInstrucao(instrucao1_str);
-    palavraInstrucaoLeft = palavraInstrucaoLeft << 3;
-    palavraInstrucaoLeft = palavraInstrucaoLeft | (endereco1 & 0x700);
-    armazemaIntrucao(palavraInstrucaoLeft, 0, enderecoInstrucao, endereco1);
+    
+    processaInstrucao(posicaoPalavra, instrucaoEsquerda, enderecoEsquerda, 0);
+    
+    processaInstrucao(posicaoPalavra, instrucaoDireita, enderecoDireita, 1);
 
-    unsigned short int palavraInstrucaoRight = decodificaInstrucao(instrucao2_str);
-    palavraInstrucaoRight = palavraInstrucaoRight << 3;
-    palavraInstrucaoRight = palavraInstrucaoRight | (endereco2 & 0x700);
-    armazemaIntrucao(palavraInstrucaoRight, 1, enderecoInstrucao, endereco2);
 }
 
 void lerArquivo(char *nomeArquivo)
@@ -559,7 +564,7 @@ void lerArquivo(char *nomeArquivo)
 
         if (tipoInstrucao == 'i')
         {
-            processaInstrucao(palavraCompacta, enderecoInstrucao);
+            separaInstrucao(palavraCompacta, enderecoInstrucao);
         }
         else if (tipoInstrucao == 'd')
         {
@@ -568,6 +573,7 @@ void lerArquivo(char *nomeArquivo)
         else
         {
             printf("Tipo de instrucao invalido. Use 'i' para instrucao ou 'd' para dado.\n");
+            printf("\n %c \n", tipoInstrucao);
             exit(1);
         }
     }
