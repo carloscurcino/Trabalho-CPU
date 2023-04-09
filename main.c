@@ -82,7 +82,6 @@ void busca()
     if (registrador.LR == 0)
     {
         registrador.MAR = registrador.PC;
-        registrador.MBR = 0;
         for (int i = 0; i < 4; i++)
         {
             registrador.MBR <<= 8;
@@ -93,39 +92,47 @@ void busca()
 void decodifica()
 {
     if (registrador.LR == 0)
-    {
-        printf("\n decodificando uma tarefa left \n");
-        registrador.IBR = registrador.MBR & 0xFFFF;
+    {  
+        registrador.IBR = registrador.MBR & MASK_16BIT;
+
         registrador.MBR = registrador.MBR >> 16;
         registrador.IR = registrador.MBR >> 11;
-        if (registrador.IR >= 0b11000 && registrador.IR <= 0b11111)
-        { // VERIFICA SE É IMEDIATO
-            registrador.IMM = registrador.MBR & 0x7FF;
+
+        // VERIFICA SE É IMEDIATO
+        if (registrador.IR >= moviahImm && registrador.IR <= rshImm)
+        { 
+            registrador.IMM = registrador.MBR & MASK_11BIT;
         }
         else
         {
-            registrador.MAR = registrador.MBR & 0x7FF;
+            registrador.MAR = registrador.MBR & MASK_11BIT;
         }
     }
     else
     {
-        printf("\n decodificando uma tarefa right \n");
         registrador.IR = registrador.IBR >> 11;
-        if (registrador.IR >= 0b11000 && registrador.IR <= 0b11111)
-        { // VERIFICA SE É IMEDIATO
-            registrador.IMM = registrador.IBR & 0X7FF;
+
+        // VERIFICA SE É IMEDIATO
+        if (registrador.IR >= moviahImm && registrador.IR <= rshImm)
+        { 
+            registrador.IMM = registrador.IBR & MASK_11BIT;
         }
         else
         {
-            registrador.MAR = registrador.IBR & 0X7FF;
+            registrador.MAR = registrador.IBR & MASK_11BIT;
         }
+
         if (registrador.IR != hlt)
             registrador.PC += 4;
     }
 }
 void executa()
-{
-    if (registrador.IR == nop)
+{   
+    if (registrador.IR == hlt)
+    {
+        
+    }
+    else if (registrador.IR == nop)
     {
         if (registrador.LR == 1)
         {
@@ -150,7 +157,6 @@ void executa()
     else if (registrador.IR == mul)
     { // mul
         registrador.A = registrador.A * registrador.B;
-        printf("\n mul registradores, valor = %d \n", registrador.A);
         mudaLR();
     }
     else if (registrador.IR == div)
@@ -165,7 +171,6 @@ void executa()
         registrador.MAR++;
         registrador.MBR = registrador.MBR | MEM[registrador.MAR];
         registrador.A = registrador.MBR & 0xFFFF;
-        printf("\n usando o registrador A = %d \n", registrador.A);
         mudaLR();
     }
     else if (registrador.IR == ldb)
@@ -175,7 +180,6 @@ void executa()
         registrador.MAR++;
         registrador.MBR = registrador.MBR | MEM[registrador.MAR];
         registrador.B = registrador.MBR & 0xFFFF;
-        printf("\n usando o registrador B = %d \n", registrador.B);
         mudaLR();
     }
     else if (registrador.IR == cmp)
@@ -323,11 +327,11 @@ void executa()
     }
     else
     {
+        printf("\nOPCODE Invalido : %d \n", registrador.IR);
         printf("Instrução invalida. Por favor confira novamente a entrada");
         exit(1);
     }
 }
-
 int encontraInicio(char *nomeArquivo)
 {
     FILE *arquivo;
@@ -570,6 +574,7 @@ void lerArquivo(char *nomeArquivo)
     fclose(arquivo);
 }
 
+
 int main()
 {
     char nomeArquivo1[] = "instrucoes.txt";
@@ -581,6 +586,7 @@ int main()
     getchar();
     registrador.PC = encontraInicio(nomeArquivo1);
     lerArquivo(nomeArquivo1);
+    system("cls");
     imprimeMemoria();
     imprimeEstadoCPU();
     printf("\nPressione Enter para prosseguir!\n");
