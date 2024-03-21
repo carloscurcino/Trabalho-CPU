@@ -5,6 +5,7 @@
 
 Registrador registrador;
 unsigned char MEM[0x99];
+int flagControle = 0;
 
 void inicializaRegistrador()
 {
@@ -113,8 +114,8 @@ void decodifica()
 void executa()
 {   
     if (registrador.IR == hlt)
-    {
-        
+    {   
+        flagControle = 1;
     }
     else if (registrador.IR == nop)
     {
@@ -594,7 +595,11 @@ int main()
         system("cls");
         imprimeMemoria();
         imprimeEstadoCPU();
-        printf("\nPressione Enter para prosseguir!\n");
+        if(flagControle==0){
+            printf("\nPressione Enter para prosseguir!\n");
+        }else{
+            printf("\nPressione Enter para prosseguir ou 'ctrl+c' para sair!\n");
+        }
         getchar();
     }
     return 0;
