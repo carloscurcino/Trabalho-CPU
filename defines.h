@@ -31,6 +31,8 @@
 #define lshImm 0b11110
 #define rshImm 0b11111
 #define tamanhoMemoria 0x9A
+
+//mascaras 
 #define MASK_8BIT 0xFF
 #define MASK_UPPER_3BIT 0x700
 #define MASK_11BIT 0x7FF

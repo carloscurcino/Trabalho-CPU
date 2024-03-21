@@ -186,14 +186,14 @@ void executa()
         }
         else
             registrador.G = 0;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == xchg)
     {
         registrador.T = registrador.A;
         registrador.A = registrador.B;
         registrador.B = registrador.T;
-        mudaLR(registrador);
+        mudaLR();
     }
     else if (registrador.IR == and)
     {
@@ -539,7 +539,6 @@ void lerArquivo(char *nomeArquivo)
     char linha[50];
     unsigned int enderecoInstrucao = 0;
 
-    // Necessário encontrar o inicio do programa em memória
     while (fgets(linha, sizeof(linha), arquivo))
     {
         char palavraCompacta[20];
@@ -565,23 +564,28 @@ void lerArquivo(char *nomeArquivo)
     fclose(arquivo);
 }
 
-
 int main()
 {
     char nomeArquivo1[] = "instrucoes.txt";
+
     inicializaRegistrador();
     inicializaMemoria();
     imprimeMemoria();
     imprimeEstadoCPU();
+
     printf("\nPressione Enter para LER o arquivo!\n");
     getchar();
+
     registrador.PC = encontraInicio(nomeArquivo1);
     lerArquivo(nomeArquivo1);
+
     system("cls");
     imprimeMemoria();
     imprimeEstadoCPU();
+
     printf("\nPressione Enter para prosseguir!\n");
     getchar();
+
     while (1)
     {
         busca();
